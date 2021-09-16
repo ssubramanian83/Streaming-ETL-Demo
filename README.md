@@ -1,7 +1,7 @@
 # Streaming-ETL-Demo - Enriching event stream data with CDC data from Postgres, stream into Elasticsearch
 Streaming ETL Demo artifacts
 <div align="center" padding=25px>
-    <img src="images/confluent.png" width=50% height=50%>
+    <img src="Images/confluent.png" width=50% height=50%>
 </div>
 
 # <div align="center">Streaming ETL with Confluent</div>
