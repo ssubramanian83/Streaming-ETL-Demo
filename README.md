@@ -94,8 +94,6 @@ A topic contains messages, and each message is a key-value pair. The message key
 
 Confluent Cloud Schema Registry is used to manage schemas and it defines a scope in which schemas can evolve. It stores a versioned history of all schemas, provides multiple compatibility settings, and allows schemas to evolve according to these compatibility settings. It is also fully-managed.
 
-You will be exploring Confluent Cloud Schema Registry in more detail towards the end of the workshop. First, you will need to enable Schema Registry within your environment.
-
 1. Return to your environment by clicking on the Confluent icon at the top left corner and then clicking your environment tile.
 
 1. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
