@@ -29,10 +29,10 @@ Streaming ETL Demo artifacts
 5. [Create a Topic using the Cloud UI](#step-5)
 6. [Create an API Key Pair](#step-6)
 7. [Start Debezium connector, Postgres instance and Elasticsearch cluster in docker](#step-7)
-8. [Set up and connect self managed debezium connector to Conlfuent Cloud](#step-8)
+8. [Set up and connect self managed debezium connector to Confluent Cloud](#step-8)
 ## Load
 9. [Insert data into Postgres tables](#step-9)
-10. [Check messages in Conlfuent Cloud](#step-10)
+10. [Check messages in Confluent Cloud](#step-10)
 ## Transform
 11. [Enrich and Transform the data using ksqlDB](#step-11)
 ## Load
@@ -193,7 +193,7 @@ curl -u $SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO $SCHEMA_REGISTRY_URL/subjects
 ```
 If successful, your output will return: `[ ]%`
     
-## <a name="step-7"></a>Step 8: Set up and connect self managed debezium connector to Conlfuent Cloud
+## <a name="step-8"></a>Step 8: Set up and connect self managed debezium connector to Confluent Cloud
 
 Let’s say you have a database, or object storage such as AWS S3, Azure Blob Storage, Elasticsearch cluster or Google Cloud Storage, or a data warehouse such as Snowflake. How do you connect these data systems to your architecture?
 
@@ -273,12 +273,13 @@ The first time it connects to a PostgreSQL server or cluster, the connector take
 ```bash
 cat ./input_data.sql| docker exec -i postgres psql -U postgres -d inventory
 ```
+## <a name="step-10"></a>Step 10: Check messages in Confluent Cloud
 
-10. Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**, then on the topic **postgres.public.customers**. You will now confirm that your PostgreSQL connector is working by checking to see if data is being produced to our Confluent Cloud cluster. You will see data being produced under the **Production** tile. 
+Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**, then on the topic **postgres.public.customers**. You will now confirm that your PostgreSQL connector is working by checking to see if data is being produced to our Confluent Cloud cluster. You will see data being produced under the **Production** tile. 
 
-9. Another way to confirm is to view the messages within the UI. Click on **Messages**. In the search bar at the top, set it to **Jump to Offset**. Enter **0** as the offset and click on the result **0 / Partition: 0**. 
+1. Another way to confirm is to view the messages within the UI. Click on **Messages**. In the search bar at the top, set it to **Jump to Offset**. Enter **0** as the offset and click on the result **0 / Partition: 0**. 
 
     Remember, you created this topic with 1 partition. That partition is Partition 0.
     
-10. Repeat the same step for the topic **postgres.public.orders**.
+2. Repeat the same step for the topic **postgres.public.orders**.
 
