@@ -206,3 +206,32 @@ With Confluent’s connectors, your data systems can communicate with your servi
 If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components.
 
 Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your cluster in Confluent Cloud that you created earlier.
+
+You have seen and worked within the Confluent Cloud Dashboard in the previous steps. Because you have Confluent Platform services deployed, you can use Confluent Control Center (C3) to manage and monitor Confluent Platform, and it is also connected to Confluent Cloud from your set up. You will see confirmation that Control Center is indeed connected to Confluent Cloud by the end of this step.
+
+1. Open a browser and go to **http://localhost:9021/** to access Confluent Control Center.
+
+    <div align="center">
+       <img src="Images/c3-landing-page.png" width=50% height=50%>
+    </div>
+
+    You will notice that the UI looks very similar to the Confluent Cloud dashboard. 
+
+2. Click on the cluster, then click on **Topics**, and you should notice the **postgres.public.customers** and **postgres.public.orders** topic that you had created in Confluent Cloud in Step 3. This is your first confirmation that Control Center and local Connect cluster are successfully connected to Confluent Cloud.
+    
+    <div align="center">
+       <img src="Images/c3-all-topics.png" width=50% height=50%>
+    </div>
+
+3. Click on **Connect**. You will see a cluster already here named **connect**. If not, please refresh the page. This is your local Connect cluster that you have running in Docker. 
+
+    <div align="center">
+       <img src="Images/c3-all-connect.png" width=75% height=75%>
+    </div>
+
+4. Click on **connect**, **Add Connector**, and then on the **PostgresConnector Source** tile. 
+
+    <div align="center">
+       <img src="Images/c3-browse-connect.png" width=75% height=75%>
+    </div>
+
