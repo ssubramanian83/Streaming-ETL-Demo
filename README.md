@@ -28,7 +28,7 @@ Streaming ETL Demo artifacts
 4. [Setup ksqlDB](#step-4)
 5. [Create a Topic using the Cloud UI](#step-5)
 6. [Create an API Key Pair](#step-6)
-7. [Start Debezium connector, Postgres instance and Elasticsearch cluster](#step-7)
+7. [Start Debezium connector, Postgres instance and Elasticsearch cluster in docker](#step-7)
 8. [Create debezium connector for Postgres](#step-8)
 ## Load
 9. [Insert data into Postgres tables](#step-9)
