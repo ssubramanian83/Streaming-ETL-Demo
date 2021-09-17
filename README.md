@@ -226,12 +226,12 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
 3. Click on **Connect**. You will see a cluster already here named **connect**. If not, please refresh the page. This is your local Connect cluster that you have running in Docker. 
 
     <div align="center">
-       <img src="Images/c3-all-connect.png" width=75% height=75%>
+       <img src="Images/c3-all-connect.png" width=100% height=100%>
     </div>
 
 4. Click on **connect**, **Add Connector**, and then on the **PostgresConnector Source** tile. 
 
     <div align="center">
-       <img src="Images/c3-browse-connect.png" width=75% height=75%>
+       <img src="Images/c3-browse-connect.png" width=100% height=100%>
     </div>
 
