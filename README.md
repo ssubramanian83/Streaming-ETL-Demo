@@ -251,18 +251,34 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
 
 6. Scroll down to the very bottom of the page, click on **Continue**, review the configuration details, then click on **Launch.**
     <div align="center">
-       <img src="images/c3-launch-connector.png" width=75% height=75%>
+       <img src="Images/c3-launch-connector.png" width=100% height=100%>
     </div>
 
 7. Verify that the connector is running.
 
     <div align="center">
-       <img src="images/c3-running-connectors.png" width=75% height=75%>
+       <img src="Images/c3-running-connectors.png" width=100% height=100%>
     </div>
 
-8. Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**, then on the topic **dbserver1.inventory.customers**. You will now confirm that your PostgreSQL connector is working by checking to see if data is being produced to our Confluent Cloud cluster. You will see data being produced under the **Production** tile. 
+8. Run the script in the repository "create-table.sql" to create two tables in the Postgres DB
+```bash
+cat ./create_table.sql| docker exec -i postgres psql -U postgres -d inventory
+```
+Debezium’s PostgreSQL connector captures row-level changes in the schemas of a PostgreSQL database. 
+
+The first time it connects to a PostgreSQL server or cluster, the connector takes a consistent snapshot of all schemas. After that snapshot is complete, the connector continuously captures row-level changes that insert, update, and delete database content and that were committed to a PostgreSQL database. The connector generates data change event records and streams them to Kafka topics. For each table, the default behavior is that the connector streams all generated events to a separate Kafka topic for that table. Applications and services consume data change event records from that topic.
+
+9. Lets insert some data into the tables by running the script "input_data.sql". If you inspect the script it creates user and adds order entries to the corresponding tables.
+
+```bash
+cat ./input_data.sql| docker exec -i postgres psql -U postgres -d inventory
+```
+
+10. Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**, then on the topic **postgres.public.customers**. You will now confirm that your PostgreSQL connector is working by checking to see if data is being produced to our Confluent Cloud cluster. You will see data being produced under the **Production** tile. 
 
 9. Another way to confirm is to view the messages within the UI. Click on **Messages**. In the search bar at the top, set it to **Jump to Offset**. Enter **0** as the offset and click on the result **0 / Partition: 0**. 
 
     Remember, you created this topic with 1 partition. That partition is Partition 0.
+    
+10. Repeat the same step for the topic **postgres.public.orders**.
 
