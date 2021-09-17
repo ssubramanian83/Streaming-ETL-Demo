@@ -32,7 +32,7 @@ Streaming ETL Demo artifacts
 8. [Set up and connect self managed debezium connector to Confluent Cloud](#step-8)
 ## Load
 9. [Insert data into Postgres tables](#step-9)
-10.[Check messages in Confluent Cloud](#step-10)
+10. [Check messages in Confluent Cloud](#step-10)
 ## Transform
 11. [Enrich and Transform the data using ksqlDB](#step-11)
 ## Load
