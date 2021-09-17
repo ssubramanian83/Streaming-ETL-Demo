@@ -30,10 +30,10 @@ Streaming ETL Demo artifacts
 6. [Create an API Key Pair](#step-6)
 7. [Start Debezium connector, Postgres instance and Elasticsearch cluster in docker](#step-7)
 8. [Set up and connect self managed debezium connector to Confluent Cloud](#step-8)
-## Load
+## Extract
 9. [Insert data into Postgres tables](#step-9)
 10. [Check messages in Confluent Cloud](#step-10)
-## Transform
+## Real time Transform
 11. [Enrich and Transform the data using ksqlDB](#step-11)
 ## Load
 12. [Load the data into ElasticSearch](#step-12)
@@ -284,4 +284,52 @@ Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**
     Remember, you created this topic with 1 partition. That partition is Partition 0.
     
 2. Repeat the same step for the topic **postgres.public.orders**.
+
+## <a name="step-11"></a>Step 11:Enrich and Transform the data using ksqlDB
+
+In a traditional batch ETL, you run nighly or hourly runs to transform and load the data from the RDBMS tables to the Data warehousing for running analytics. This includes finding insights from the orders for marketing, detecting fraud etc.. 
+But with Confluent streaming ETL, you transform the data in real time using ksqlDB and find insights on the data in real time. This can help you with setting your data in motion by identifying business and marketing opportunies, detect and prevent fraud as they happen and many more. 
+In this section we will use ksqlDB to transform the two tables by joining data in real time. Remember the orders table only had the customer id but no details on the customer's name or age or gender. For ksqlDB to be able to use the topics that Debezium created, you must declare streams over it. Because you configured Kafka Connect with Schema Registry, you don't need to declare the schema of the data for the streams, because it's inferred from the schema that Debezium writes with.
+
+By default, Debezium sends all events in an envelope that includes many pieces of information about the change captured. For this tutorial, we will transform the data to reflect the value after it changed and trim the rest of the metadata.
+
+As first step, we will create streams from the topics we created:
+
+```bash
+CREATE STREAM customers WITH (
+    kafka_topic = 'customers.public.customers',
+    value_format = 'avro'
+);
+```
+
+Repeat the same step for the orders topic:
+
+```bash
+CREATE STREAM orders WITH (
+    kafka_topic = 'customers.public.orders',
+    value_format = 'avro'
+);
+```
+
+Run the following statement to create a stream over the customers table:
+
+```bash
+CREATE stream customers_flattened AS
+SELECT after->id,
+       after->name,
+       after->age,
+       after->membership
+FROM customers EMIT CHANGES;
+```
+Run the following statement to create a stream over the orders table:
+
+```bash
+CREATE stream orders_flattened AS
+SELECT after->customer_id,
+       after->order_id,
+       after->price,
+       after->product_code
+FROM orders EMIT CHANGES;
+```
+
 
