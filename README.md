@@ -287,9 +287,12 @@ Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**
 
 ## <a name="step-11"></a>Step 11:Enrich and Transform the data using ksqlDB
 
-In a traditional batch ETL, you run nighly or hourly runs to transform and load the data from the RDBMS tables to the Data warehousing for running analytics. This includes finding insights from the orders for marketing, detecting fraud etc.. 
+In a traditional batch ETL, you run nighly or hourly runs to transform and load the data from the RDBMS tables to the Data warehousing for running analytics. This includes running analytics from the orders for marketing, detecting fraud etc.. much later after the event has occured. With this option, your business cannot react to real time events when a customer discards the shopping cart or fraud happens. 
+
 But with Confluent streaming ETL, you transform the data in real time using ksqlDB and find insights on the data in real time. This can help you with setting your data in motion by identifying business and marketing opportunies, detect and prevent fraud as they happen and many more. 
-In this section we will use ksqlDB to transform the two tables by joining data in real time. Remember the orders table only had the customer id but no details on the customer's name or age or gender. For ksqlDB to be able to use the topics that Debezium created, you must declare streams over it. Because you configured Kafka Connect with Schema Registry, you don't need to declare the schema of the data for the streams, because it's inferred from the schema that Debezium writes with.
+In this section we will use ksqlDB to transform the two tables by joining data in real time. 
+
+For ksqlDB to be able to use the topics that Debezium created, you must declare streams over it. Because you configured Kafka Connect with Schema Registry, you don't need to declare the schema of the data for the streams, because it's automatically inferred from the schema that Debezium writes with.
 
 By default, Debezium sends all events in an envelope that includes many pieces of information about the change captured. For this tutorial, we will transform the data to reflect the value after it changed and trim the rest of the metadata.
 
@@ -332,4 +335,33 @@ SELECT after->customer_id,
 FROM orders EMIT CHANGES;
 ```
 
+Join the streams together:
+The goal is to create a real time view of the activity of shipped orders. To do this, we want to include as much customer information on each order as possible. Remember that the orders table only had an customer_id for each customer, but not their name or age or gender or membership. We use this identifier to look up the rest of the information by using a stream/table join. To do this, you must re-key the stream into a table by the id field:
 
+```bash
+CREATE TABLE customers_by_key AS
+    SELECT id,
+           latest_by_offset(name) AS name,
+           latest_by_offset(age) AS age,
+           latest_by_offset(membership) AS membership
+    FROM customers_flattened
+    GROUP BY id
+    EMIT CHANGES;
+```
+
+Now you can transform and enrich the orders with additional information to get real time insights. The following stream/table join creates a new stream that joins the customer information into every order event:
+
+```bash
+CREATE STREAM enriched_orders AS
+    SELECT o.order_id,
+           o.price,
+	   o.product_code,
+           c.id AS customer_id,
+           c.name AS customer_name,
+           c.age AS customer_age,
+           c.membership AS customer_membership
+    FROM orders_flattened AS o
+    Inner JOIN customers_by_key c
+    ON o.customer_id = c.id
+    EMIT CHANGES;
+ ```
