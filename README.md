@@ -28,7 +28,7 @@ Streaming ETL Demo artifacts
 4. [Setup ksqlDB](#step-4)
 5. [Create a Topic using the Cloud UI](#step-5)
 6. [Create an API Key Pair](#step-6)
-7. [Start Debezium connector, Postgres instance and Elasticsearch cluster in docker](#step-7)
+7. [Start connect cluster, Postgres instance and Elasticsearch cluster in docker](#step-7)
 8. [Set up and connect self managed debezium connector to Confluent Cloud](#step-8)
 ## Extract
 9. [Insert data into Postgres tables](#step-9)
@@ -36,9 +36,12 @@ Streaming ETL Demo artifacts
 ## Real time Transform
 11. [Enrich and Transform the data using ksqlDB](#step-11)
 ## Load
-12. [Load the data into ElasticSearch](#step-12)
-13. [Clean Up Resources](#step-13)
-14. [Confluent Resources and Further Testing](#confluent-resources-and-further-testing)
+12. [Set up Elasticsearch sink connector to Confluent cloud](#step-12)
+13. [Load the data into ElasticSearch](#step-13)
+
+## Cleanup and Further Reading
+14. [Clean Up Resources](#step-13)
+15. [Confluent Resources and Further Testing](#confluent-resources-and-further-testing)
 
 ***
 
@@ -285,7 +288,7 @@ Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**
     
 2. Repeat the same step for the topic **postgres.public.orders**.
 
-## <a name="step-11"></a>Step 11:Enrich and Transform the data using ksqlDB
+## <a name="step-11"></a>Step 11: Enrich and Transform the data using ksqlDB
 
 In a traditional batch ETL, you run nighly or hourly runs to transform and load the data from the RDBMS tables to the Data warehousing for running analytics. This includes running analytics from the orders for marketing, detecting fraud etc.. much later after the event has occured. With this option, your business cannot react to real time events when a customer discards the shopping cart or fraud happens. 
 
@@ -348,7 +351,6 @@ CREATE TABLE customers_by_key AS
     GROUP BY id
     EMIT CHANGES;
 ```
-
 Now you can transform and enrich the orders with additional information to get real time insights. The following stream/table join creates a new stream that joins the customer information into every order event:
 
 ```bash
@@ -365,3 +367,49 @@ CREATE STREAM enriched_orders AS
     ON o.customer_id = c.id
     EMIT CHANGES;
  ```
+Now lets consider some real time sceanrios and how Confluent can help with real time analsysis and insights:
+Say your ecommerce online store has a membership option. You want to identify customers who do large one time purchase from your site but is not a member. You want to target such customers to do a marketing campaign or targeted emails.
+
+You can run the following sql query on the enriched orders to get the details of such customers:
+
+```bash
+select * from ENRICHED_ORDERS where price > 300 AND customer_membership != 'premium' emit changes;
+```
+You can do this in real time immediately when a customer places an order above $300 but not a member.
+
+Lets look at another scenario:
+Say you want to look at what products is in high demand so that you can forecast your inventory or sell related products. Use the below query to find the top sales product in real time.
+
+```bash
+select product_code, count(*) from ENRICHED_ORDERS group by product_code emit changes;
+```
+
+As you can see you can do real time SQL queries using ksqlDB to find real time insights on the data instead of waiting for the batch ETL to run. There are endless possiblities and we have only shown couple of scenarios as part of the demo.
+
+## <a name="step-12"></a>Step 12: Set up Elasticsearch sink connector to Confluent cloud
+1. Click on **Connect** in the Confluent Control Center and then click the defailt **connect**. You will have the Postgres connector created earlier.
+
+    <div align="center">
+       <img src="Images/c3-all-connect.png" width=100% height=100%>
+    </div>
+
+4. Click on **connect**, **Add Connector**, and then on the **Elasticsearch Sink Connector sink** tile. 
+
+    <div align="center">
+       <img src="Images/c3-browse-connect.png" width=100% height=100%>
+    </div>
+    
+5. As the final step in deploying the self managed PostgreSQL CDC Source connector, you will now create the connector. Enter the following configuration details:
+    ```bash
+    Name = 
+    Tasks max = 1
+    Namespace = 
+    ```
+
+6. Scroll down to the very bottom of the page, click on **Continue**, review the configuration details, then click on **Launch.**
+
+7. Verify that the connector is running.
+
+    <div align="center">
+       <img src="Images/c3-running-connectors.png" width=100% height=100%>
+    </div>
