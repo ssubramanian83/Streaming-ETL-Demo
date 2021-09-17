@@ -234,4 +234,35 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
     <div align="center">
        <img src="Images/c3-browse-connect.png" width=100% height=100%>
     </div>
+    
+5. As the final step in deploying the self managed PostgreSQL CDC Source connector, you will now create the connector. Enter the following configuration details:
+    ```bash
+    Name = PostgresSource
+    Tasks max = 1
+    Namespace = postgres
+    Hostname = 0.0.0.0 
+    Port = 5432
+    User = postgres
+    Password = confluent2021
+    Database = inventory
+    ```
+
+    > **Note:** If you have networking rules that may not allow for connection to 0.0.0.0, then use *docker.for.mac.host.internal* as the hostname for Mac and use *docker.for.win.localhost* for Windows.
+
+6. Scroll down to the very bottom of the page, click on **Continue**, review the configuration details, then click on **Launch.**
+    <div align="center">
+       <img src="images/c3-launch-connector.png" width=75% height=75%>
+    </div>
+
+7. Verify that the connector is running.
+
+    <div align="center">
+       <img src="images/c3-running-connectors.png" width=75% height=75%>
+    </div>
+
+8. Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**, then on the topic **dbserver1.inventory.customers**. You will now confirm that your PostgreSQL connector is working by checking to see if data is being produced to our Confluent Cloud cluster. You will see data being produced under the **Production** tile. 
+
+9. Another way to confirm is to view the messages within the UI. Click on **Messages**. In the search bar at the top, set it to **Jump to Offset**. Enter **0** as the offset and click on the result **0 / Partition: 0**. 
+
+    Remember, you created this topic with 1 partition. That partition is Partition 0.
 
