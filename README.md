@@ -212,7 +212,7 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
 1. Open a browser and go to **http://localhost:9021/** to access Confluent Control Center.
 
     <div align="center">
-       <img src="Images/c3-landing-page.png" width=50% height=50%>
+       <img src="Images/c3-landing-page.png" width=75% height=75%>
     </div>
 
     You will notice that the UI looks very similar to the Confluent Cloud dashboard. 
@@ -220,7 +220,7 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
 2. Click on the cluster, then click on **Topics**, and you should notice the **postgres.public.customers** and **postgres.public.orders** topic that you had created in Confluent Cloud in Step 3. This is your first confirmation that Control Center and local Connect cluster are successfully connected to Confluent Cloud.
     
     <div align="center">
-       <img src="Images/c3-all-topics.png" width=50% height=50%>
+       <img src="Images/c3-all-topics.png" width=75% height=75%>
     </div>
 
 3. Click on **Connect**. You will see a cluster already here named **connect**. If not, please refresh the page. This is your local Connect cluster that you have running in Docker. 
