@@ -29,7 +29,7 @@ Streaming ETL Demo artifacts
 5. [Create a Topic using the Cloud UI](#step-5)
 6. [Create an API Key Pair](#step-6)
 7. [Start Debezium connector, Postgres instance and Elasticsearch cluster in docker](#step-7)
-8. [Create debezium connector for Postgres](#step-8)
+8. [Set up and connect self managed debezium connector to Conlfuent Cloud](#step-8)
 ## Load
 9. [Insert data into Postgres tables](#step-9)
 10. [Check messages in Conlfuent Cloud](#step-10)
@@ -113,17 +113,19 @@ Confluent Cloud Schema Registry is used to manage schemas and it defines a scope
 
 ***
 
-## <a name="step-5"></a>Step 5: Create a Topic using the Cloud UI
+## <a name="step-5"></a>Step 5: Create 2 Topic using the Cloud UI
 
 1. On the navigation menu, select **Topics** and click **Create Topic**.
     > **Note:** Refresh the page if your cluster is still spinning up.
 
-1. Enter **abc.inventory** as the Topic name and **1** as the Number of partitions
-    > **Note:** Topics have many configurable parameters that dictate how Confluent handles messages. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html).  If you’re interested in viewing the default configurations, you can view them in the *Topic Summary* on the right side.
+1. Enter **postgres.public.customers** as the Topic name and **1** as the Number of partitions
+    > **Note:** Topics have many configurable parameters that dictate how Confluent handles messages. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html).  The Debezium CDC connector for Postgres requires the topic to be created with the scheme of ${database.server.name}.${schema.name}.${table.name}. If using the default public schema, it can not be omitted, i.e. topic has to be something like Postgres.public.customers in this case.
 
 1. Click **Create with defaults**.
 
-    * **inventory** is the name of one of the collections and abc is the database name within the mongoDB Atlas that you will be sourcing data from.
+    * **customers** is the name of one of the customer table in Postgres and Postgres is the database server name within the Postgres db that you will be sourcing data from.
+
+1. Repeat the process and create another topic **postgres.public.orders** for the orders table.
 
 ***
 
@@ -149,3 +151,21 @@ The docker-compose.yml file will start the Confluent control center, Debezium co
 ```bash
 docker-compose up -d
 ```
+Check whether all the containers are up using the below command
+
+```bash
+docker ps
+```
+## <a name="step-7"></a>Step 8: Set up and connect self managed debezium connector to Conlfuent Cloud
+
+Let’s say you have a database, or object storage such as AWS S3, Azure Blob Storage, Elasticsearch cluster or Google Cloud Storage, or a data warehouse such as Snowflake. How do you connect these data systems to your architecture?
+
+There are 2 options:
+
+Develop your own connectors using the Kafka Connect framework (this requires a lot of development time and effort).
+You can leverage the 180+ connectors Confluent offers out-of-the-box which allows you to configure your sources and sinks in a few, simple steps. To view the complete list of connectors that Confluent offers, please see Confluent Hub.
+With Confluent’s connectors, your data systems can communicate with your services, completing your data pipeline.
+
+If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components.
+
+Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your cluster in Confluent Cloud that you created earlier.
