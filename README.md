@@ -146,9 +146,39 @@ Confluent Cloud Schema Registry is used to manage schemas and it defines a scope
 
 ## <a name="step-7"></a>Step 7: Start Debezium connector, Postgres instance and Elasticsearch cluster in docker
 
-The docker-compose.yml file will start the Confluent control center, Debezium connector for Postgres, ElasticSearch sink connector, Postgres database and Elastic cluster as containers running in your docker environment. Start the environment with the below command.
+1. To begin setting up the debezium, you should have already cloned the repository during the Prerequisites step. 
+    > **Note:** This repository contains **all** the files to recreate this demo in your environment. 
+    ```bash
+    # Clone the ETL streaming demo repo
+    git clone <>
+    ```
+    This directory contains two important supporting files, `setup.properties` and `docker-compose.yml`. 
+
+    You will use `setup.properties` in order to export values from your Confluent Cloud account as environment variables. `docker-compose.yml` will use the environment variables from there to create four containers: `connect`, `control-center`, `elastic` and `postgres`. 
+
+    You will use `control-center` to configure `connect` to do change data capture from `postgres` before sending this data Confluent Cloud. 
+
+1. The next step is to replace the placeholder values surrounded in angle brackets within `setup.properties`. For reference, use the following table to fill out all the values completely.
+
+    | property               | created in step                         |
+    |------------------------|-----------------------------------------|
+    | `BOOTSTRAP_SERVERS`      | [*create an environment and cluster*](#create-an-environment-and-kafka-cluster) |
+    | `CLOUD_KEY`              | [*create an api key pair*](#create-an-api-key-pair)                  |
+    | `CLOUD_SECRET`           | [*create an api key pair*](#create-an-api-key-pair)                  |
+    | `SCHEMA_REGISTRY_KEY`    | [*enable schema registry*](#enable-schema-registry)                  |
+    | `SCHEMA_REGISTRY_SECRET` | [*enable schema registry*](#enable-schema-registry)                  |
+    | `SCHEMA_REGISTRY_URL`    | [*enable schema registry*](#enable-schema-registry)                  |
+
+1. View the **docker-compose.yml**. 
+
+    This will launch a PostgreSQL database, Elastic cluster and 2 Confluent Platform components - a Connect cluster and Confluent Control Center. Control Center is used to monitor your Confluent deployment. The file will not provision the brokers because you will be using the cluster you created in Confluent Cloud.
+
+    The docker-compose.yml also has parameterized the values to connect to your Confluent Cloud instance, including the bootstrap servers and security configuration. You could fill in these Confluent Cloud credentials manually, but a more programmatic method is to create a local file with configuration parameters to connect to your clusters. To make it a lot easier and faster, you will use this method.
+
+The docker-compose.yml file will start the Confluent Control Center, Connect Cluster, Postgres database and Elastic cluster as containers running in your docker environment. Start the environment with the below command.
 
 ```bash
+source setup.properties
 docker-compose up -d
 ```
 Check whether all the containers are up using the below command
@@ -156,6 +186,14 @@ Check whether all the containers are up using the below command
 ```bash
 docker ps
 ```
+
+1. Validate your credentials to Confluent Cloud Schema Registry.
+    ```bash
+    curl -u $SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO $SCHEMA_REGISTRY_URL/subjects
+    ```
+
+    If successful, your output will return: `[ ]%`
+    
 ## <a name="step-7"></a>Step 8: Set up and connect self managed debezium connector to Conlfuent Cloud
 
 Let’s say you have a database, or object storage such as AWS S3, Azure Blob Storage, Elasticsearch cluster or Google Cloud Storage, or a data warehouse such as Snowflake. How do you connect these data systems to your architecture?
