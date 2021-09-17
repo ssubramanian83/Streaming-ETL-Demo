@@ -32,7 +32,7 @@ Streaming ETL Demo artifacts
 8. [Set up and connect self managed debezium connector to Confluent Cloud](#step-8)
 ## Load
 9. [Insert data into Postgres tables](#step-9)
-10. [Check messages in Confluent Cloud](#step-10)
+10.[Check messages in Confluent Cloud](#step-10)
 ## Transform
 11. [Enrich and Transform the data using ksqlDB](#step-11)
 ## Load
@@ -268,7 +268,9 @@ Debezium’s PostgreSQL connector captures row-level changes in the schemas of a
 
 The first time it connects to a PostgreSQL server or cluster, the connector takes a consistent snapshot of all schemas. After that snapshot is complete, the connector continuously captures row-level changes that insert, update, and delete database content and that were committed to a PostgreSQL database. The connector generates data change event records and streams them to Kafka topics. For each table, the default behavior is that the connector streams all generated events to a separate Kafka topic for that table. Applications and services consume data change event records from that topic.
 
-9. Lets insert some data into the tables by running the script "input_data.sql". If you inspect the script it creates user and adds order entries to the corresponding tables.
+## <a name="step-9"></a>Step 9: Insert data into Postgres tables
+
+1. Lets insert some data into the tables by running the script "input_data.sql". If you inspect the script it creates user and adds order entries to the corresponding tables.
 
 ```bash
 cat ./input_data.sql| docker exec -i postgres psql -U postgres -d inventory
