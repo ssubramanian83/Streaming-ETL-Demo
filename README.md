@@ -187,12 +187,11 @@ Check whether all the containers are up using the below command
 docker ps
 ```
 
-1. Validate your credentials to Confluent Cloud Schema Registry.
-    ```bash
-    curl -u $SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO $SCHEMA_REGISTRY_URL/subjects
-    ```
-
-    If successful, your output will return: `[ ]%`
+Validate your credentials to Confluent Cloud Schema Registry.
+```bash
+curl -u $SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO $SCHEMA_REGISTRY_URL/subjects
+```
+If successful, your output will return: `[ ]%`
     
 ## <a name="step-7"></a>Step 8: Set up and connect self managed debezium connector to Conlfuent Cloud
 
