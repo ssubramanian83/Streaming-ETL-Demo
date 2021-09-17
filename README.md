@@ -142,3 +142,11 @@ Confluent Cloud Schema Registry is used to manage schemas and it defines a scope
 
 ***
 
+## <a name="step-7"></a>Step 7: Start Debezium connector, Postgres instance and Elasticsearch cluster in docker
+
+The docker-compose.yml file will start the Confluent control center, Debezium connector for Postgres, ElasticSearch sink connector, Postgres database and Elastic cluster as containers running in your docker environment. Start the environment with the below command.
+
+[source,bash]
+----
+docker-compose up -d
+----
