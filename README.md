@@ -37,10 +37,10 @@ Streaming ETL Demo artifacts
 11. [Enrich and Transform the data using ksqlDB](#step-11)
 ## Load
 12. [Set up Elasticsearch sink connector to Confluent cloud](#step-12)
-13. [Load the data into ElasticSearch](#step-13)
+13. [Check the data in the ElasticSearch](#step-13)
 
 ## Cleanup and Further Reading
-14. [Clean Up Resources](#step-13)
+14. [Clean Up Resources](#step-14)
 15. [Confluent Resources and Further Testing](#confluent-resources-and-further-testing)
 
 ***
@@ -240,15 +240,15 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
     
 5. As the final step in deploying the self managed PostgreSQL CDC Source connector, you will now create the connector. Enter the following configuration details:
     ```bash
-    "name": "PostgresConnector",
-    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
-    "tasks.max": "1",
-    "database.server.name": "postgres",
-    "database.hostname": "docker.for.mac.host.internal",
-    "database.port": "5432",
-    "database.user": "postgres",
-    "database.password": "*************",
-    "database.dbname": "inventory",
+    "name": "PostgresConnector"
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector"
+    "tasks.max": "1"
+    "database.server.name": "postgres"
+    "database.hostname": "docker.for.mac.host.internal"
+    "database.port": "5432"
+    "database.user": "postgres"
+    "database.password": "*************"
+    "database.dbname": "inventory"
     "plugin.name": "pgoutput"
     ```
     > **Note:** If you have networking rules that may not allow for connection to 0.0.0.0, then use *docker.for.mac.host.internal* as the hostname for Mac and use *docker.for.win.localhost* for Windows.
@@ -402,10 +402,10 @@ As you can see you can do real time SQL queries using ksqlDB to find real time i
     
 5. As the final step in deploying the self managed **Elasticsearch Sink Connector**, you will now create the connector. Enter the following configuration details:
 ```bash
-    "consumer.auto.offset.reset": "earliest",
-    "name": "ElasticsearchSinkConnectorConnector_0",
-    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
-    "topics": "pksqlc-09qrpENRICHED_ORDERS",
+    "consumer.auto.offset.reset": "earliest"
+    "name": "ElasticsearchSinkConnectorConnector_0"
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
+    "topics": "pksqlc-09qrpENRICHED_ORDERS"
     "connection.url": "http://elastic:9200"
 ```
 
@@ -416,3 +416,68 @@ As you can see you can do real time SQL queries using ksqlDB to find real time i
     <div align="center">
        <img src="Images/c4-running-connectors.png" width=100% height=100%>
     </div>
+    
+## <a name="step-13"></a>Step 13: Check the data in the ElasticSearch
+
+Elasticsearch will automatically get the enriched orders data. To confirm the same, use the below command in your terminal:
+
+```bash
+curl localhost:9200/pksqlc-09qrpenriched_orders/_search | jq
+```
+Now lets add two new orders to the orders table with order_id "52" and "53". The orders details with transformed data for analytics will be available in real time. Your output should look similar to below when using the above command:
+
+ "hits": {
+    "total": {
+      "value": 3,
+      "relation": "eq"
+    },
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "pksqlc-09qrpenriched_orders",
+        "_type": "_doc",
+        "_id": "001",
+        "_score": 1,
+        "_source": {
+          "ORDER_ID": "40",
+          "PRICE": 500,
+          "PRODUCT_CODE": "y02",
+          "CUSTOMER_NAME": "Ironman",
+          "CUSTOMER_AGE": 45,
+          "CUSTOMER_MEMBERSHIP": "premium"
+        }
+      },
+      {
+        "_index": "pksqlc-09qrpenriched_orders",
+        "_type": "_doc",
+        "_id": "007",
+        "_score": 1,
+        "_source": {
+          "ORDER_ID": "52",
+          "PRICE": 70,
+          "PRODUCT_CODE": "y05",
+          "CUSTOMER_NAME": "Shangchi",
+          "CUSTOMER_AGE": 40,
+          "CUSTOMER_MEMBERSHIP": "standard"
+        }
+      },
+      {
+        "_index": "pksqlc-09qrpenriched_orders",
+        "_type": "_doc",
+        "_id": "005",
+        "_score": 1,
+        "_source": {
+          "ORDER_ID": "53",
+          "PRICE": 700,
+          "PRODUCT_CODE": "z05",
+          "CUSTOMER_NAME": "Blackwidow",
+          "CUSTOMER_AGE": 35,
+          "CUSTOMER_MEMBERSHIP": "standard"
+        }
+      }
+    ]
+  }
+
+You can configure Kibana on Elasticsearch for data visualization.
+
+
