@@ -401,18 +401,13 @@ As you can see you can do real time SQL queries using ksqlDB to find real time i
     </div>
     
 5. As the final step in deploying the self managed **Elasticsearch Sink Connector**, you will now create the connector. Enter the following configuration details:
-    ```bash
-    {
-  "name": "ElasticsearchSinkConnectorConnector_0",
-  "config": {
+```bash
     "consumer.auto.offset.reset": "earliest",
     "name": "ElasticsearchSinkConnectorConnector_0",
     "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
     "topics": "pksqlc-09qrpENRICHED_ORDERS",
     "connection.url": "http://elastic:9200"
-  }
-}
-    ```
+```
 
 6. Scroll down to the very bottom of the page, click on **Continue**, review the configuration details, then click on **Launch.**
 
