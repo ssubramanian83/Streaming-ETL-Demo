@@ -426,6 +426,7 @@ curl localhost:9200/pksqlc-09qrpenriched_orders/_search | jq
 ```
 Now lets add two new orders to the orders table with order_id "52" and "53". The orders details with transformed data for analytics will be available in real time. Your output should look similar to below when using the above command:
 
+```bash
  "hits": {
     "total": {
       "value": 3,
@@ -477,6 +478,7 @@ Now lets add two new orders to the orders table with order_id "52" and "53". The
       }
     ]
   }
+  ```
 
 You can configure Kibana on Elasticsearch for data visualization.
 
