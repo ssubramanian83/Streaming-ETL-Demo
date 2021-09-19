@@ -41,7 +41,6 @@ Streaming ETL Demo artifacts
 
 ## Cleanup and Further Reading
 14. [Clean Up Resources](#step-14)
-15. [Confluent Resources and Further Testing](#confluent-resources-and-further-testing)
 
 ***
 
@@ -482,4 +481,11 @@ Now lets add two new orders to the orders table with order_id "52" and "53". The
 
 You can configure Kibana on Elasticsearch for data visualization.
 
+## <a name="step-14"></a>Step 14:Clean Up Resources
 
+Go to the Docker Dashboard, and stop the container using
+```bash
+docker-compose down
+```
+
+Go to your environment in Confluent Cloud -> Cluster Overview -> Cluster Settings to delete the cluster.
