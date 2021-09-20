@@ -1,3 +1,26 @@
+Solution Architecture
+=====================
+
+Overview
+--------
+
+Traditionally, ETL would be done on a point-to-point basis, taking data from a source system and loading it to a target one. If the data was needed elsewhere it would either be extracted twice or taken from the original target. Both of these are undesirable. The former increases the load on the source system, and the latter introduces an unnecessary dependency and coupling in the design. In short, this is how the “big-ball-of-mud” or “spaghetti” architectures start.
+
+<div align="center">
+    <img src="Images/traditional-etl.png" width=75% height=75%>
+</div>
+
+By adopting Conlfuent streaming ETL platform, we decouple the sources and targets for data, and thus introduce greater flexibility to build upon and evolve an architecture.
+
+<div align="center">
+    <img src="Images/streaming-etl.png" width=75% height=75%>
+</div>
+
+Reference Example
+-----------------
+
+To demonstrate the streaming ETL pattern, we build the below demo. For the purpose of this demo, the source and sink components are simplified to be Postgres and ElasticSearch. But the source can be disparate entities running different data formats. Similarly the same stream of events can be consumed by multiple sink consumers.
+
 # Streaming-ETL-Demo - Enriching event stream data with CDC data from Postgres, stream into Elasticsearch
 Streaming ETL Demo artifacts
 <div align="center" padding=25px>
