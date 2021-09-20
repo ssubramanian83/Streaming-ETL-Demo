@@ -326,7 +326,7 @@ As first step, we will create streams from the topics we created:
 
 ```bash
 CREATE STREAM customers WITH (
-    kafka_topic = 'customers.public.customers',
+    kafka_topic = 'postgres.public.customers',
     value_format = 'avro'
 );
 ```
@@ -337,7 +337,7 @@ Repeat the same step for the orders topic:
 
 ```bash
 CREATE STREAM orders WITH (
-    kafka_topic = 'customers.public.orders',
+    kafka_topic = 'postgres.public.orders',
     value_format = 'avro'
 );
 ```
