@@ -519,8 +519,11 @@ Resources
 
 Confluent blog:
 <https://www.confluent.io/blog/changing-face-etl/>
+
 <https://www.confluent.io/blog/cdc-and-streaming-analytics-using-debezium-kafka/>
+
 <https://www.confluent.io/blog/streaming-etl-with-confluent-kafka-message-routing-and-fan-out/>
+
 <https://www.confluent.io/blog/kafka-elasticsearch-connector-tutorial/>
 
 
