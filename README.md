@@ -505,7 +505,7 @@ Now lets add two new orders to the orders table with order_id "52" and "53". The
 
 You can configure Kibana on Elasticsearch for data visualization.
 
-## <a name="step-14"></a>Step 14:Clean Up Resources
+## <a name="step-14"></a>Step 14: Clean Up Resources
 
 Go to the Docker Dashboard, and stop the container using
 ```bash
@@ -513,3 +513,15 @@ docker-compose down
 ```
 
 Go to your environment in Confluent Cloud -> Cluster Overview -> Cluster Settings to delete the cluster.
+
+Resources
+---------
+
+Confluent blog:
+<https://www.confluent.io/blog/changing-face-etl/>
+<https://www.confluent.io/blog/cdc-and-streaming-analytics-using-debezium-kafka/>
+<https://www.confluent.io/blog/streaming-etl-with-confluent-kafka-message-routing-and-fan-out/>
+<https://www.confluent.io/blog/kafka-elasticsearch-connector-tutorial/>
+
+
+
