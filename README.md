@@ -309,7 +309,7 @@ Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**
 
     Remember, you created this topic with 1 partition. That partition is Partition 0.
     
-2. Repeat the same step for the topic **postgres.public.orders**.
+2. Repeat the same step for the topic **postgres.public.orders** to make sure that the topic have received the messages.
 
 ## <a name="step-11"></a>Step 11: Enrich and Transform the data using ksqlDB
 
@@ -330,6 +330,8 @@ CREATE STREAM customers WITH (
     value_format = 'avro'
 );
 ```
+
+**Note: Change "auto.offset.reset" to "Earliest"**
 
 Repeat the same step for the orders topic:
 
