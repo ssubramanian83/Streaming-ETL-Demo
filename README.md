@@ -16,6 +16,8 @@ By adopting Conlfuent streaming ETL platform, we decouple the sources and target
     <img src="Images/streaming-etl.png" width=75% height=75%>
 </div>
 
+**Source: https://www.confluent.io/blog/changing-face-etl/**
+
 Reference Example
 -----------------
 
