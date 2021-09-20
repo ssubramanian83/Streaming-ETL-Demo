@@ -392,6 +392,7 @@ CREATE STREAM enriched_orders AS
  ```
 
 **Now lets consider some real time scenarios and how Confluent can help with real time analsysis and insights:**
+
 Say your ecommerce online store has a membership option. You want to identify customers who do large one time purchase from your site but is not a member. You want to target such customers to do a marketing campaign or targeted emails.
 
 You can run the following sql query on the enriched orders to get the details of such customers:
