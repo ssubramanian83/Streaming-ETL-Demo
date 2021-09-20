@@ -451,7 +451,14 @@ Elasticsearch will automatically get the enriched orders data. To confirm the sa
 ```bash
 curl localhost:9200/pksqlc-09qrpenriched_orders/_search | jq
 ```
-Now lets add two new orders to the orders table with order_id "52" and "53". The orders details with transformed data for analytics will be available in real time. Your output should look similar to below when using the above command:
+Now lets add two new orders to the orders table with order_id "52" and "53". 
+
+Use the below command to add two more orders to the orders table.
+```bash
+cat ./addnew_orders.sql| docker exec -i postgres psql -U postgres -d inventory
+```
+
+The orders details with transformed data for analytics will be available in real time. Your output should look similar to below when using the above command:
 
 ```bash
  "hits": {
