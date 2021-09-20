@@ -518,6 +518,7 @@ Resources
 ---------
 
 Confluent blog:
+
 <https://www.confluent.io/blog/changing-face-etl/>
 
 <https://www.confluent.io/blog/cdc-and-streaming-analytics-using-debezium-kafka/>
