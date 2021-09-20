@@ -391,7 +391,7 @@ CREATE STREAM enriched_orders AS
     EMIT CHANGES;
  ```
 
-*Now lets consider some real time sceanrios and how Confluent can help with real time analsysis and insights:*
+**Now lets consider some real time scenarios and how Confluent can help with real time analsysis and insights:**
 Say your ecommerce online store has a membership option. You want to identify customers who do large one time purchase from your site but is not a member. You want to target such customers to do a marketing campaign or targeted emails.
 
 You can run the following sql query on the enriched orders to get the details of such customers:
@@ -401,7 +401,7 @@ select * from ENRICHED_ORDERS where price > 300 AND customer_membership != 'prem
 ```
 You can do this in real time immediately when a customer places an order above $300 but not a member.
 
-*Lets look at another scenario:*
+**Lets look at another scenario:**
 
 Say you want to look at what products is in high demand so that you can forecast your inventory or sell related products. Use the below query to find the top sales product in real time.
 
@@ -409,7 +409,7 @@ Say you want to look at what products is in high demand so that you can forecast
 select product_code, count(*) from ENRICHED_ORDERS group by product_code emit changes;
 ```
 
-As you can see you can do real time SQL queries using ksqlDB to find real time insights on the data instead of waiting for the batch ETL to run. There are endless possiblities and we have only shown couple of scenarios as part of the demo.
+*As you can see you can do real time SQL queries using ksqlDB to find real time insights on the data instead of waiting for the batch ETL to run. There are endless possiblities and we have only shown couple of scenarios as part of the demo.*
 
 ## <a name="step-12"></a>Step 12: Set up Elasticsearch sink connector to Confluent cloud
 1. Click on **Connect** in the Confluent Control Center and then click the defailt **connect**. You will have the Postgres connector created earlier.
