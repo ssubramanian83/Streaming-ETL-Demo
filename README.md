@@ -19,7 +19,7 @@ By adopting Conlfuent streaming ETL platform, we decouple the sources and target
 Reference Example
 -----------------
 
-To demonstrate the streaming ETL pattern, we build the below demo. For the purpose of this demo, the source and sink components are simplified to be Postgres and ElasticSearch. But the source can be disparate entities running different data formats. Similarly the same stream of events can be consumed by multiple sink consumers.
+To demonstrate the streaming ETL pattern, we build the below demo. For the purpose of this demo, the source and sink components are simplified to be Postgres and ElasticSearch running in docker. But in a real world scenario, the source can be disparate entities running different data formats. Similarly the same stream of events can be consumed by multiple sink consumers in real time.
 
 # Streaming-ETL-Demo - Enriching event stream data with CDC data from Postgres, stream into Elasticsearch
 Streaming ETL Demo artifacts
