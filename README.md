@@ -10,7 +10,7 @@ Traditionally, ETL would be done on a point-to-point basis, taking data from a s
     <img src="Images/traditional-etl.png" width=75% height=75%>
 </div>
 
-By adopting Conlfuent streaming ETL platform, we decouple the sources and targets for data, and thus introduce greater flexibility to build upon and evolve an architecture.
+By adopting Confluent streaming ETL platform, we decouple the sources and targets for data, and thus introduce greater flexibility to build upon and evolve an architecture.
 
 <div align="center">
     <img src="Images/streaming-etl.png" width=75% height=75%>
