@@ -71,7 +71,7 @@ To demonstrate the streaming ETL pattern, we build the below demo. For the purpo
 ## **Architecture Diagram**
 
 <div align="center">
-    <img src="Images\Reference-Architecture.png" width=75% height=75%>
+    <img src="Images\Reference-Architecture.png" width=80% height=80%>
 </div>
 
 ## **Objective**
